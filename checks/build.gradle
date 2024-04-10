@@ -22,5 +22,5 @@ dependencies {
     testImplementation "com.android.tools.lint:lint-tests:30.0.2"
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17

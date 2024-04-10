@@ -8,8 +8,8 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    namespace "com.yechaoa.wanandroid_jetpack"
     compileSdkVersion Configs.compile
-
     defaultConfig {
         applicationId Configs.applicationId
         minSdkVersion Configs.minSdk
@@ -39,7 +39,8 @@ android {
 
     buildFeatures {
         viewBinding = true
-        // dataBinding = true
+//        dataBinding = true
+        buildConfig true
     }
 
     applicationVariants.all { variant ->
@@ -73,11 +74,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '17'
     }
 }
 

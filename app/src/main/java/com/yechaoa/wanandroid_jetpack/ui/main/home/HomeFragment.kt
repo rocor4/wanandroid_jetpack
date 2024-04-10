@@ -1,6 +1,8 @@
 package com.yechaoa.wanandroid_jetpack.ui.main.home
 
 import android.content.Intent
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.yechaoa.wanandroid_jetpack.base.BaseVmFragment
 import com.yechaoa.wanandroid_jetpack.databinding.FragmentHomeBinding
 import com.yechaoa.wanandroid_jetpack.ui.adapter.ArticleAdapter
@@ -9,8 +11,8 @@ import com.yechaoa.wanandroid_jetpack.ui.detail.DetailActivity
 import com.yechaoa.yutilskt.DisplayUtil
 import com.yechaoa.yutilskt.ToastUtil
 import com.youth.banner.indicator.CircleIndicator
-import com.youth.banner.transformer.*
-import java.util.*
+import com.youth.banner.transformer.AlphaPageTransformer
+import com.youth.banner.transformer.ScaleInTransformer
 import kotlin.math.roundToInt
 
 class HomeFragment : BaseVmFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
@@ -22,6 +24,7 @@ class HomeFragment : BaseVmFragment<FragmentHomeBinding, HomeViewModel>(Fragment
 
     override fun initView() {
         initRecyclerView()
+        val infalte: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding = FragmentHomeBinding::inflate
     }
 
     private fun initRecyclerView() {
@@ -70,7 +73,7 @@ class HomeFragment : BaseVmFragment<FragmentHomeBinding, HomeViewModel>(Fragment
 
     override fun observe() {
         super.observe()
-        mViewModel.bannerList.observe(this, { bannerList ->
+        mViewModel.bannerList.observe(this) { bannerList ->
             //动态设置高度
             val layoutParams = mBinding.banner.layoutParams
             layoutParams.height = (DisplayUtil.getScreenWidth() / 1.99).roundToInt()
@@ -92,9 +95,9 @@ class HomeFragment : BaseVmFragment<FragmentHomeBinding, HomeViewModel>(Fragment
                 }
                 startActivity(intent)
             }
-        })
+        }
 
-        mViewModel.articleList.observe(this, {
+        mViewModel.articleList.observe(this) {
             mCurrentSize = it.size
             if (0 == mCurrentPage) {
                 mArticleAdapter.setList(it)
@@ -102,23 +105,23 @@ class HomeFragment : BaseVmFragment<FragmentHomeBinding, HomeViewModel>(Fragment
                 mArticleAdapter.addData(it)
                 mArticleAdapter.loadMoreModule.loadMoreComplete()
             }
-        })
+        }
 
-        mViewModel.collectState.observe(this, {
+        mViewModel.collectState.observe(this) {
             if (it) {
                 ToastUtil.show("收藏成功")
                 mArticleAdapter.data[mPosition].collect = true
                 mArticleAdapter.notifyItemChanged(mPosition)
             }
-        })
+        }
 
-        mViewModel.unCollectState.observe(this, {
+        mViewModel.unCollectState.observe(this) {
             if (it) {
                 ToastUtil.show("取消成功")
                 mArticleAdapter.data[mPosition].collect = false
                 mArticleAdapter.notifyItemChanged(mPosition)
             }
-        })
+        }
     }
 
 }
